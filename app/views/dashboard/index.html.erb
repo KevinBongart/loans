@@ -2,11 +2,15 @@
   <thead>
     <tr>
       <th></th>
+      <th></th>
+      <th></th>
       <% @loans.each do |loan| %>
         <th><%= link_to loan.name, loan %></th>
       <% end %>
     </tr>
     <tr>
+      <th></th>
+      <th></th>
       <th></th>
       <% @loans.each do |loan| %>
         <th><%= loan.bank.name %></th>
@@ -14,22 +18,34 @@
     </tr>
     <tr>
       <th></th>
+      <th>Remaining</th>
+      <th>Monthly total</th>
       <% @loans.each do |loan| %>
-        <th><%= number_to_currency(loan.total_amount, locale: :fr) %></th>
+        <th><%= number_to_euros(loan.total_amount) %></th>
       <% end %>
     </tr>
   </thead>
+
   <tbody>
+    <% paid = 0 %>
     <% @months.times do |i| %>
+
       <% month = @first_payment_at + i.months %>
+      <% total_for_month = total_for_month(@loans, month) %>
+
       <tr class="<%= 'success' if month < Time.zone.now.beginning_of_month %>">
-        <td><%= month %></td>
+        <td><%= month.strftime("%Y %B") %></td>
+        <td><%= number_to_euros(@total_amount - paid) %></td>
+        <td><%= number_to_euros(total_for_month) unless total_for_month.zero? %></td>
+
         <% @loans.each do |loan| %>
           <td>
-            <%= number_to_currency(loan.monthly_payment, locale: :fr) if loan.pay_in?(month) %>
+            <%= number_to_euros(loan.monthly_payment) if loan.pay_in?(month) %>
           </td>
         <% end %>
       </tr>
+
+      <% paid += total_for_month %>
     <% end %>
   </tbody>
 </table>
