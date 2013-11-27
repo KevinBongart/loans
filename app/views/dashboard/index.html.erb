@@ -1,0 +1,35 @@
+<table class="table table-striped table-hover table-condensed ">
+  <thead>
+    <tr>
+      <th></th>
+      <% @loans.each do |loan| %>
+        <th><%= link_to loan.name, loan %></th>
+      <% end %>
+    </tr>
+    <tr>
+      <th></th>
+      <% @loans.each do |loan| %>
+        <th><%= loan.bank.name %></th>
+      <% end %>
+    </tr>
+    <tr>
+      <th></th>
+      <% @loans.each do |loan| %>
+        <th><%= number_to_currency(loan.total_amount, locale: :fr) %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @months.times do |i| %>
+      <% month = @first_payment_at + i.months %>
+      <tr class="<%= 'success' if month < Time.zone.now.beginning_of_month %>">
+        <td><%= month %></td>
+        <% @loans.each do |loan| %>
+          <td>
+            <%= number_to_currency(loan.monthly_payment, locale: :fr) if loan.pay_in?(month) %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
