@@ -1,5 +1,12 @@
-<%= simple_form_for @bank do |f| %>
-  <%= f.input :name %>
-  <%= f.input :logo %>
-  <%= f.button :submit %>
+<%= simple_form_for(@bank) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :logo %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
 <% end %>
