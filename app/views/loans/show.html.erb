@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @loan.name %>
+</p>
+
+<p>
+  <strong>Monthly payment:</strong>
+  <%= @loan.monthly_payment %>
+</p>
+
+<p>
+  <strong>First payment at:</strong>
+  <%= @loan.first_payment_at %>
+</p>
+
+<p>
+  <strong>Last payment at:</strong>
+  <%= @loan.last_payment_at %>
+</p>
+
+<p>
+  <strong>Bank:</strong>
+  <%= @loan.bank %>
+</p>
+
+<%= link_to 'Edit', edit_loan_path(@loan) %> |
+<%= link_to 'Back', loans_path %>
