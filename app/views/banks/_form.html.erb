@@ -1,25 +1,5 @@
-<%= form_for(@bank) do |f| %>
-  <% if @bank.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@bank.errors.count, "error") %> prohibited this bank from being saved:</h2>
-
-      <ul>
-      <% @bank.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :logo %><br>
-    <%= f.text_field :logo %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<%= simple_form_for @bank do |f| %>
+  <%= f.input :name %>
+  <%= f.input :logo %>
+  <%= f.button :submit %>
 <% end %>
