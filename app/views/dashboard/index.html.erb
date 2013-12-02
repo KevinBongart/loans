@@ -28,13 +28,11 @@
 
   <tbody>
     <% paid = 0 %>
-    <% @months.times do |i| %>
-
-      <% month = @first_payment_at + i.months %>
+    <% @months.each do |month| %>
       <% total_for_month = total_for_month(@loans, month) %>
 
       <tr class="<%= 'success' if month < Time.zone.now.beginning_of_month %>">
-        <td><%= month.strftime("%Y %B") %></td>
+        <td><%= month.strftime("%B %Y") %></td>
         <td><%= number_to_euros(@total_amount - paid) %></td>
         <td><%= number_to_euros(total_for_month) unless total_for_month.zero? %></td>
 
@@ -49,3 +47,31 @@
     <% end %>
   </tbody>
 </table>
+
+<canvas id="myChart" width="1170" height="400"></canvas>
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+    console.log('<%= raw @month_names %>')
+    var data = {
+      labels : <%= raw @month_names %>,
+      datasets : [
+        {
+          data : <%= raw @monthly_payments %>
+        }
+      ]
+    }
+
+    var ctx = $("#myChart").get(0).getContext("2d");
+    var myNewChart = new Chart(ctx).Line(data, {
+      scaleLineColor : "rgba(0,0,0,.1)",
+      scaleFontFamily : "'Helvetica'",
+      scaleFontSize : 12,
+      scaleGridLineColor : "rgba(0,0,0,.05)",
+      bezierCurve : false,
+      pointDot : false,
+      datasetFill : true,
+      animation : false
+    });
+  });
+</script>
