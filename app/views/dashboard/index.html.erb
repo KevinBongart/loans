@@ -37,7 +37,7 @@
         <td><%= number_to_euros(total_for_month) unless total_for_month.zero? %></td>
 
         <% @loans.each do |loan| %>
-          <td>
+          <td class="<%= 'success' if (month.beginning_of_month + loan.first_payment_at.day.days) < Time.zone.now %>">
             <%= number_to_euros(loan.monthly_payment) if loan.pay_in?(month) %>
           </td>
         <% end %>
